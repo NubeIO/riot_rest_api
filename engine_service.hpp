@@ -15,7 +15,8 @@ class EngineService {
  public:
   EngineService() {}
   const char *SOCKET_PATH = "/tmp/engine-socket";
-  std::pair<uint32_t, std::string> AddNode(uint32_t package_id, uint32_t node_id, uint32_t parent_id) {
+  std::pair<uint32_t, std::string> AddNode(uint32_t package_id, uint32_t node_id,
+                                           uint32_t parent_id, uint32_t pos_x, uint32_t pos_y) {
     capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
     Engine::Client engine = client.getMain<Engine>();
 
@@ -24,6 +25,22 @@ class EngineService {
     node_details.setPackageId(package_id);
     node_details.setNodeId(node_id);
     node_details.setParentId(parent_id);
+    node_details.setPosX(pos_x);
+    node_details.setPosY(pos_y);
+
+    auto response = request.send().wait(client.getWaitScope());
+    return {response.getInstanceId(), response.getName().cStr()};
+  }
+
+  std::pair<uint32_t, std::string> UpdateNode(uint32_t instance_id, uint32_t pos_x, uint32_t pos_y) {
+    capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
+    Engine::Client engine = client.getMain<Engine>();
+
+    auto request = engine.updateNodeRequest();
+    auto node_details = request.getNodeDetails();
+    node_details.setInstanceId(instance_id);
+    node_details.setPosX(pos_x);
+    node_details.setPosY(pos_y);
 
     auto response = request.send().wait(client.getWaitScope());
     return {response.getInstanceId(), response.getName().cStr()};
@@ -40,8 +57,13 @@ class EngineService {
     return response.getInstanceId();
   }
 
-  uint32_t AddEdge(uint32_t from_instance_id, uint32_t to_instance_id,
-                   const std::string& out_name, const std::string& in_name) {
+  struct EdgeResult {
+    uint32_t edge_id;
+    bool data_only;
+  };
+
+  EdgeResult AddEdge(uint32_t from_instance_id, uint32_t to_instance_id,
+                     const std::string& out_name, const std::string& in_name) {
     capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
     Engine::Client engine = client.getMain<Engine>();
 
@@ -53,17 +75,21 @@ class EngineService {
     edge.setInName(in_name);
 
     auto response = request.send().wait(client.getWaitScope());
-    return response.getEdgeId();
+    return EdgeResult{
+        .edge_id = response.getEdgeId(),
+        .data_only = response.getDataOnly()
+    };
   }
 
-  void RemoveEdge(uint32_t edge_id) {
+  uint32_t RemoveEdge(uint32_t edge_id) {
     capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
     Engine::Client engine = client.getMain<Engine>();
 
     auto request = engine.removeEdgeRequest();
     request.setEdgeId(edge_id);
 
-    request.send().wait(client.getWaitScope());
+    auto response = request.send().wait(client.getWaitScope());
+    return response.getEdgeId();
   }
 
   capnp::Response<Engine::GetAllValuesResults> GetAllNodes() {
@@ -105,6 +131,16 @@ class EngineService {
     return response.getJsonData();
   }
 
+
+  std::string GetFlowJson() {
+    capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
+    Engine::Client engine = client.getMain<Engine>();
+
+    auto request = engine.getFlowJsonRequest();
+    auto response = request.send().wait(client.getWaitScope());
+
+    return response.getJsonData().cStr();
+  }
 
 
 

@@ -2,8 +2,8 @@
 // Created by craig on 8/11/2024.
 //
 
-#ifndef NODE_ROUTES_HPP_
-#define NODE_ROUTES_HPP_
+#ifndef ENGINE_ROUTES_HPP_
+#define ENGINE_ROUTES_HPP_
 
 
 #include "crow.h"
@@ -19,11 +19,19 @@ class NodeRoutes {
 
  private:
   static void setupSwaggerDocs(OpenAPIBuilder& apiBuilder) {
-    auto nodeDetailsSchema = OpenAPIBuilder::createObjectSchema({
+    auto addNodeDetailsSchema = OpenAPIBuilder::createObjectSchema({
                                                                     {"nodeId", "integer"},
                                                                     {"packageId", "integer"},
-                                                                    {"parentId", "integer"}
+                                                                    {"parentId", "integer"},
+                                                                    {"posX", "integer"},
+                                                                    {"posY", "integer"},
                                                                 });
+
+    auto updateNodeDetailsSchema = OpenAPIBuilder::createObjectSchema({
+                                                                       {"instanceId", "integer"},
+                                                                       {"posX", "integer"},
+                                                                       {"posY", "integer"},
+                                                                   });
 
     std::vector<crow::json::wvalue> nodeParameters = {
         OpenAPIBuilder::createParameter(
@@ -39,7 +47,7 @@ class NodeRoutes {
         "/api/nodes",
         "POST",
         "Add a new node",
-        nodeDetailsSchema,
+        addNodeDetailsSchema,
         {{"200", {
             {"description", "Node added successfully"},
             {"content", {
@@ -52,6 +60,26 @@ class NodeRoutes {
             }}
         }}}
     );
+
+    apiBuilder.addEndpoint(
+        "/api/nodes",
+        "PUT",
+        "Update node position",
+        updateNodeDetailsSchema,
+        {{"200", {
+            {"description", "Node position updated successfully"},
+            {"content", {
+                {"application/json", {
+                    {"schema", OpenAPIBuilder::createObjectSchema({
+                                                                      {"instanceId", "integer"},
+                                                                      {"name", "string"}
+                                                                  })}
+                }}
+            }}
+        }}}
+    );
+
+
 
     apiBuilder.addEndpoint(
         "/api/nodes/{instanceId}",
@@ -155,7 +183,33 @@ class NodeRoutes {
                 auto [instanceId, name] = engineService.AddNode(
                     x["packageId"].u(),
                     x["nodeId"].u(),
-                    x["parentId"].u()
+                    x["parentId"].u(),
+                    x["posX"].u(),
+                    x["posY"].u()
+                );
+
+                crow::json::wvalue response;
+                response["instanceId"] = instanceId;
+                response["name"] = name;
+
+                return crow::response(response);
+              } catch (const std::exception& e) {
+                return crow::response(500, e.what());
+              }
+            });
+
+    CROW_ROUTE(app, "/api/nodes")
+        .methods("PUT"_method)
+            ([&engineService](const crow::request& req) {
+              auto x = crow::json::load(req.body);
+              if (!x)
+                return crow::response(400, "Invalid JSON");
+
+              try {
+                auto [instanceId, name] = engineService.UpdateNode(
+                    x["instanceId"].u(),
+                    x["posX"].u(),
+                    x["posY"].u()
                 );
 
                 crow::json::wvalue response;
@@ -208,4 +262,4 @@ class NodeRoutes {
   }
 };
 
-#endif //NODE_ROUTES_HPP_
+#endif //ENGINE_ROUTES_HPP_

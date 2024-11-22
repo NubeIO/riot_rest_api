@@ -14,8 +14,13 @@ class OpenAPIBuilder {
     schema["openapi"] = "3.0.0";
     schema["info"]["title"] = "My API";
     schema["info"]["version"] = "1.0.0";
-    schema["servers"][0]["url"] = "http://localhost:8080";
+
   }
+  void updateServerUrl(const std::string& url) {
+    schema["servers"][0]["url"] = url;
+    std::cout << url << std::endl;
+  }
+
 
   void addEndpoint(const std::string& path, const std::string& method,
                    const std::string& summary,

@@ -44,6 +44,10 @@ CAPNP_DECLARE_SCHEMA(b07368995ec87e01);
 CAPNP_DECLARE_SCHEMA(c08bbc306d7b4261);
 CAPNP_DECLARE_SCHEMA(e11fd37ff2567dab);
 CAPNP_DECLARE_SCHEMA(8c2950a3f55347c6);
+CAPNP_DECLARE_SCHEMA(9328f9a27066e804);
+CAPNP_DECLARE_SCHEMA(a81018cce6cc664e);
+CAPNP_DECLARE_SCHEMA(ffec9756f0e248da);
+CAPNP_DECLARE_SCHEMA(8ca3b586946113e3);
 CAPNP_DECLARE_SCHEMA(987e5f5d90018518);
 CAPNP_DECLARE_SCHEMA(b8fd2625918720e9);
 CAPNP_DECLARE_SCHEMA(e192a8e54d391e2d);
@@ -81,6 +85,8 @@ struct Engine {
   struct UpdatesAvailableResults;
   struct AddNodeParams;
   struct AddNodeResults;
+  struct UpdateNodeParams;
+  struct UpdateNodeResults;
   struct RemoveNodeParams;
   struct RemoveNodeResults;
   struct AddEdgeParams;
@@ -97,6 +103,8 @@ struct Engine {
   struct GetAvailablePackagesResults;
   struct GetPackageJsonParams;
   struct GetPackageJsonResults;
+  struct GetFlowJsonParams;
+  struct GetFlowJsonResults;
 
   #if !CAPNP_LITE
   struct _capnpPrivate {
@@ -196,6 +204,36 @@ struct Engine::AddNodeResults {
   };
 };
 
+struct Engine::UpdateNodeParams {
+  UpdateNodeParams() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(9a1b1cf08ad0f6a9, 0, 1)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
+struct Engine::UpdateNodeResults {
+  UpdateNodeResults() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(96750a54eaf0c002, 1, 1)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
 struct Engine::RemoveNodeParams {
   RemoveNodeParams() = delete;
 
@@ -204,7 +242,7 @@ struct Engine::RemoveNodeParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(9a1b1cf08ad0f6a9, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(ad14c083e43af08c, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -219,7 +257,7 @@ struct Engine::RemoveNodeResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(96750a54eaf0c002, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(d68963ef091b040e, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -234,7 +272,7 @@ struct Engine::AddEdgeParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(ad14c083e43af08c, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(c195cbcf7dd8df90, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -249,7 +287,7 @@ struct Engine::AddEdgeResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(d68963ef091b040e, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(bb907c0387610dcc, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -264,7 +302,7 @@ struct Engine::RemoveEdgeParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(c195cbcf7dd8df90, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(fe81bd2d5c14136b, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -279,7 +317,7 @@ struct Engine::RemoveEdgeResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(bb907c0387610dcc, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(e2b4a4eac572e405, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -294,7 +332,7 @@ struct Engine::SetDefaultParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(fe81bd2d5c14136b, 1, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(df17e4b1827f6044, 1, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -309,7 +347,7 @@ struct Engine::SetDefaultResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e2b4a4eac572e405, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(a65f55dde717b306, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -324,7 +362,7 @@ struct Engine::SetFallbackParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(df17e4b1827f6044, 1, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(e792054a0690ce45, 1, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -339,7 +377,7 @@ struct Engine::SetFallbackResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(a65f55dde717b306, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(e725899841b83038, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -354,7 +392,7 @@ struct Engine::GetAllValuesParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e792054a0690ce45, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(b07368995ec87e01, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -369,7 +407,7 @@ struct Engine::GetAllValuesResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e725899841b83038, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(c08bbc306d7b4261, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -384,7 +422,7 @@ struct Engine::GetAvailablePackagesParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(b07368995ec87e01, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(e11fd37ff2567dab, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -399,7 +437,7 @@ struct Engine::GetAvailablePackagesResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(c08bbc306d7b4261, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(8c2950a3f55347c6, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -414,7 +452,7 @@ struct Engine::GetPackageJsonParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e11fd37ff2567dab, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(9328f9a27066e804, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -429,7 +467,37 @@ struct Engine::GetPackageJsonResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(8c2950a3f55347c6, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(a81018cce6cc664e, 0, 1)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
+struct Engine::GetFlowJsonParams {
+  GetFlowJsonParams() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(ffec9756f0e248da, 0, 0)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
+struct Engine::GetFlowJsonResults {
+  GetFlowJsonResults() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(8ca3b586946113e3, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -651,7 +719,7 @@ struct NodeDetails {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(f3c0b9463f592afe, 2, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(f3c0b9463f592afe, 3, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -752,6 +820,8 @@ public:
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::AddNodeParams,  ::Engine::AddNodeResults> addNodeRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
+  ::capnp::Request< ::Engine::UpdateNodeParams,  ::Engine::UpdateNodeResults> updateNodeRequest(
+      ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::RemoveNodeParams,  ::Engine::RemoveNodeResults> removeNodeRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::AddEdgeParams,  ::Engine::AddEdgeResults> addEdgeRequest(
@@ -767,6 +837,8 @@ public:
   ::capnp::Request< ::Engine::GetAvailablePackagesParams,  ::Engine::GetAvailablePackagesResults> getAvailablePackagesRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::GetPackageJsonParams,  ::Engine::GetPackageJsonResults> getPackageJsonRequest(
+      ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
+  ::capnp::Request< ::Engine::GetFlowJsonParams,  ::Engine::GetFlowJsonResults> getFlowJsonRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
 
 protected:
@@ -796,6 +868,10 @@ protected:
   typedef  ::Engine::AddNodeResults AddNodeResults;
   typedef ::capnp::CallContext<AddNodeParams, AddNodeResults> AddNodeContext;
   virtual ::kj::Promise<void> addNode(AddNodeContext context);
+  typedef  ::Engine::UpdateNodeParams UpdateNodeParams;
+  typedef  ::Engine::UpdateNodeResults UpdateNodeResults;
+  typedef ::capnp::CallContext<UpdateNodeParams, UpdateNodeResults> UpdateNodeContext;
+  virtual ::kj::Promise<void> updateNode(UpdateNodeContext context);
   typedef  ::Engine::RemoveNodeParams RemoveNodeParams;
   typedef  ::Engine::RemoveNodeResults RemoveNodeResults;
   typedef ::capnp::CallContext<RemoveNodeParams, RemoveNodeResults> RemoveNodeContext;
@@ -828,6 +904,10 @@ protected:
   typedef  ::Engine::GetPackageJsonResults GetPackageJsonResults;
   typedef ::capnp::CallContext<GetPackageJsonParams, GetPackageJsonResults> GetPackageJsonContext;
   virtual ::kj::Promise<void> getPackageJson(GetPackageJsonContext context);
+  typedef  ::Engine::GetFlowJsonParams GetFlowJsonParams;
+  typedef  ::Engine::GetFlowJsonResults GetFlowJsonResults;
+  typedef ::capnp::CallContext<GetFlowJsonParams, GetFlowJsonResults> GetFlowJsonContext;
+  virtual ::kj::Promise<void> getFlowJson(GetFlowJsonContext context);
 
   inline  ::Engine::Client thisCap() {
     return ::capnp::Capability::Server::thisCap()
@@ -1322,6 +1402,174 @@ private:
 };
 #endif  // !CAPNP_LITE
 
+class Engine::UpdateNodeParams::Reader {
+public:
+  typedef UpdateNodeParams Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+  inline bool hasNodeDetails() const;
+  inline  ::NodeDetails::Reader getNodeDetails() const;
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::UpdateNodeParams::Builder {
+public:
+  typedef UpdateNodeParams Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+  inline bool hasNodeDetails();
+  inline  ::NodeDetails::Builder getNodeDetails();
+  inline void setNodeDetails( ::NodeDetails::Reader value);
+  inline  ::NodeDetails::Builder initNodeDetails();
+  inline void adoptNodeDetails(::capnp::Orphan< ::NodeDetails>&& value);
+  inline ::capnp::Orphan< ::NodeDetails> disownNodeDetails();
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::UpdateNodeParams::Pipeline {
+public:
+  typedef UpdateNodeParams Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+  inline  ::NodeDetails::Pipeline getNodeDetails();
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class Engine::UpdateNodeResults::Reader {
+public:
+  typedef UpdateNodeResults Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+  inline  ::uint32_t getInstanceId() const;
+
+  inline bool hasName() const;
+  inline  ::capnp::Text::Reader getName() const;
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::UpdateNodeResults::Builder {
+public:
+  typedef UpdateNodeResults Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+  inline  ::uint32_t getInstanceId();
+  inline void setInstanceId( ::uint32_t value);
+
+  inline bool hasName();
+  inline  ::capnp::Text::Builder getName();
+  inline void setName( ::capnp::Text::Reader value);
+  inline  ::capnp::Text::Builder initName(unsigned int size);
+  inline void adoptName(::capnp::Orphan< ::capnp::Text>&& value);
+  inline ::capnp::Orphan< ::capnp::Text> disownName();
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::UpdateNodeResults::Pipeline {
+public:
+  typedef UpdateNodeResults Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
 class Engine::RemoveNodeParams::Reader {
 public:
   typedef RemoveNodeParams Reads;
@@ -1575,6 +1823,8 @@ public:
 
   inline  ::uint32_t getEdgeId() const;
 
+  inline bool getDataOnly() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -1605,6 +1855,9 @@ public:
 
   inline  ::uint32_t getEdgeId();
   inline void setEdgeId( ::uint32_t value);
+
+  inline bool getDataOnly();
+  inline void setDataOnly(bool value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -1725,6 +1978,8 @@ public:
   }
 #endif  // !CAPNP_LITE
 
+  inline  ::uint32_t getEdgeId() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -1752,6 +2007,9 @@ public:
 #if !CAPNP_LITE
   inline ::kj::StringTree toString() const { return asReader().toString(); }
 #endif  // !CAPNP_LITE
+
+  inline  ::uint32_t getEdgeId();
+  inline void setEdgeId( ::uint32_t value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -2543,6 +2801,158 @@ private:
 class Engine::GetPackageJsonResults::Pipeline {
 public:
   typedef GetPackageJsonResults Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class Engine::GetFlowJsonParams::Reader {
+public:
+  typedef GetFlowJsonParams Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::GetFlowJsonParams::Builder {
+public:
+  typedef GetFlowJsonParams Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::GetFlowJsonParams::Pipeline {
+public:
+  typedef GetFlowJsonParams Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class Engine::GetFlowJsonResults::Reader {
+public:
+  typedef GetFlowJsonResults Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+  inline bool hasJsonData() const;
+  inline  ::capnp::Text::Reader getJsonData() const;
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::GetFlowJsonResults::Builder {
+public:
+  typedef GetFlowJsonResults Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+  inline bool hasJsonData();
+  inline  ::capnp::Text::Builder getJsonData();
+  inline void setJsonData( ::capnp::Text::Reader value);
+  inline  ::capnp::Text::Builder initJsonData(unsigned int size);
+  inline void adoptJsonData(::capnp::Orphan< ::capnp::Text>&& value);
+  inline ::capnp::Orphan< ::capnp::Text> disownJsonData();
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::GetFlowJsonResults::Pipeline {
+public:
+  typedef GetFlowJsonResults Pipelines;
 
   inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
   inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
@@ -3602,11 +4012,17 @@ public:
   }
 #endif  // !CAPNP_LITE
 
-  inline  ::uint16_t getNodeId() const;
+  inline  ::uint32_t getNodeId() const;
 
   inline  ::uint32_t getPackageId() const;
 
   inline  ::uint32_t getParentId() const;
+
+  inline  ::uint32_t getPosX() const;
+
+  inline  ::uint32_t getPosY() const;
+
+  inline  ::uint32_t getInstanceId() const;
 
 private:
   ::capnp::_::StructReader _reader;
@@ -3636,14 +4052,23 @@ public:
   inline ::kj::StringTree toString() const { return asReader().toString(); }
 #endif  // !CAPNP_LITE
 
-  inline  ::uint16_t getNodeId();
-  inline void setNodeId( ::uint16_t value);
+  inline  ::uint32_t getNodeId();
+  inline void setNodeId( ::uint32_t value);
 
   inline  ::uint32_t getPackageId();
   inline void setPackageId( ::uint32_t value);
 
   inline  ::uint32_t getParentId();
   inline void setParentId( ::uint32_t value);
+
+  inline  ::uint32_t getPosX();
+  inline void setPosX( ::uint32_t value);
+
+  inline  ::uint32_t getPosY();
+  inline void setPosY( ::uint32_t value);
+
+  inline  ::uint32_t getInstanceId();
+  inline void setInstanceId( ::uint32_t value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -4258,6 +4683,93 @@ inline ::capnp::Orphan< ::capnp::Text> Engine::AddNodeResults::Builder::disownNa
       ::capnp::bounded<0>() * ::capnp::POINTERS));
 }
 
+inline bool Engine::UpdateNodeParams::Reader::hasNodeDetails() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline bool Engine::UpdateNodeParams::Builder::hasNodeDetails() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline  ::NodeDetails::Reader Engine::UpdateNodeParams::Reader::getNodeDetails() const {
+  return ::capnp::_::PointerHelpers< ::NodeDetails>::get(_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline  ::NodeDetails::Builder Engine::UpdateNodeParams::Builder::getNodeDetails() {
+  return ::capnp::_::PointerHelpers< ::NodeDetails>::get(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+#if !CAPNP_LITE
+inline  ::NodeDetails::Pipeline Engine::UpdateNodeParams::Pipeline::getNodeDetails() {
+  return  ::NodeDetails::Pipeline(_typeless.getPointerField(0));
+}
+#endif  // !CAPNP_LITE
+inline void Engine::UpdateNodeParams::Builder::setNodeDetails( ::NodeDetails::Reader value) {
+  ::capnp::_::PointerHelpers< ::NodeDetails>::set(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), value);
+}
+inline  ::NodeDetails::Builder Engine::UpdateNodeParams::Builder::initNodeDetails() {
+  return ::capnp::_::PointerHelpers< ::NodeDetails>::init(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline void Engine::UpdateNodeParams::Builder::adoptNodeDetails(
+    ::capnp::Orphan< ::NodeDetails>&& value) {
+  ::capnp::_::PointerHelpers< ::NodeDetails>::adopt(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::NodeDetails> Engine::UpdateNodeParams::Builder::disownNodeDetails() {
+  return ::capnp::_::PointerHelpers< ::NodeDetails>::disown(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
+inline  ::uint32_t Engine::UpdateNodeResults::Reader::getInstanceId() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t Engine::UpdateNodeResults::Builder::getInstanceId() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void Engine::UpdateNodeResults::Builder::setInstanceId( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool Engine::UpdateNodeResults::Reader::hasName() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline bool Engine::UpdateNodeResults::Builder::hasName() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline  ::capnp::Text::Reader Engine::UpdateNodeResults::Reader::getName() const {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline  ::capnp::Text::Builder Engine::UpdateNodeResults::Builder::getName() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline void Engine::UpdateNodeResults::Builder::setName( ::capnp::Text::Reader value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::set(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), value);
+}
+inline  ::capnp::Text::Builder Engine::UpdateNodeResults::Builder::initName(unsigned int size) {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::init(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), size);
+}
+inline void Engine::UpdateNodeResults::Builder::adoptName(
+    ::capnp::Orphan< ::capnp::Text>&& value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::adopt(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::capnp::Text> Engine::UpdateNodeResults::Builder::disownName() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::disown(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
 inline  ::uint32_t Engine::RemoveNodeParams::Reader::getInstanceId() const {
   return _reader.getDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
@@ -4339,6 +4851,20 @@ inline void Engine::AddEdgeResults::Builder::setEdgeId( ::uint32_t value) {
       ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
 }
 
+inline bool Engine::AddEdgeResults::Reader::getDataOnly() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS);
+}
+
+inline bool Engine::AddEdgeResults::Builder::getDataOnly() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS);
+}
+inline void Engine::AddEdgeResults::Builder::setDataOnly(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS, value);
+}
+
 inline  ::uint32_t Engine::RemoveEdgeParams::Reader::getEdgeId() const {
   return _reader.getDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
@@ -4349,6 +4875,20 @@ inline  ::uint32_t Engine::RemoveEdgeParams::Builder::getEdgeId() {
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
 }
 inline void Engine::RemoveEdgeParams::Builder::setEdgeId( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
+inline  ::uint32_t Engine::RemoveEdgeResults::Reader::getEdgeId() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t Engine::RemoveEdgeResults::Builder::getEdgeId() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void Engine::RemoveEdgeResults::Builder::setEdgeId( ::uint32_t value) {
   _builder.setDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
 }
@@ -4571,6 +5111,40 @@ inline void Engine::GetPackageJsonResults::Builder::adoptJsonData(
       ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
 }
 inline ::capnp::Orphan< ::capnp::Text> Engine::GetPackageJsonResults::Builder::disownJsonData() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::disown(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
+inline bool Engine::GetFlowJsonResults::Reader::hasJsonData() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline bool Engine::GetFlowJsonResults::Builder::hasJsonData() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline  ::capnp::Text::Reader Engine::GetFlowJsonResults::Reader::getJsonData() const {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline  ::capnp::Text::Builder Engine::GetFlowJsonResults::Builder::getJsonData() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline void Engine::GetFlowJsonResults::Builder::setJsonData( ::capnp::Text::Reader value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::set(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), value);
+}
+inline  ::capnp::Text::Builder Engine::GetFlowJsonResults::Builder::initJsonData(unsigned int size) {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::init(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), size);
+}
+inline void Engine::GetFlowJsonResults::Builder::adoptJsonData(
+    ::capnp::Orphan< ::capnp::Text>&& value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::adopt(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::capnp::Text> Engine::GetFlowJsonResults::Builder::disownJsonData() {
   return ::capnp::_::PointerHelpers< ::capnp::Text>::disown(_builder.getPointerField(
       ::capnp::bounded<0>() * ::capnp::POINTERS));
 }
@@ -4921,17 +5495,17 @@ inline ::capnp::Orphan< ::capnp::Text> EdgeMessage::Builder::disownInName() {
       ::capnp::bounded<1>() * ::capnp::POINTERS));
 }
 
-inline  ::uint16_t NodeDetails::Reader::getNodeId() const {
-  return _reader.getDataField< ::uint16_t>(
+inline  ::uint32_t NodeDetails::Reader::getNodeId() const {
+  return _reader.getDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
 }
 
-inline  ::uint16_t NodeDetails::Builder::getNodeId() {
-  return _builder.getDataField< ::uint16_t>(
+inline  ::uint32_t NodeDetails::Builder::getNodeId() {
+  return _builder.getDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
 }
-inline void NodeDetails::Builder::setNodeId( ::uint16_t value) {
-  _builder.setDataField< ::uint16_t>(
+inline void NodeDetails::Builder::setNodeId( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
 }
 
@@ -4961,6 +5535,48 @@ inline  ::uint32_t NodeDetails::Builder::getParentId() {
 inline void NodeDetails::Builder::setParentId( ::uint32_t value) {
   _builder.setDataField< ::uint32_t>(
       ::capnp::bounded<2>() * ::capnp::ELEMENTS, value);
+}
+
+inline  ::uint32_t NodeDetails::Reader::getPosX() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 4294967295u);
+}
+
+inline  ::uint32_t NodeDetails::Builder::getPosX() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 4294967295u);
+}
+inline void NodeDetails::Builder::setPosX( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, value, 4294967295u);
+}
+
+inline  ::uint32_t NodeDetails::Reader::getPosY() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 4294967295u);
+}
+
+inline  ::uint32_t NodeDetails::Builder::getPosY() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 4294967295u);
+}
+inline void NodeDetails::Builder::setPosY( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, value, 4294967295u);
+}
+
+inline  ::uint32_t NodeDetails::Reader::getInstanceId() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<5>() * ::capnp::ELEMENTS, 4294967295u);
+}
+
+inline  ::uint32_t NodeDetails::Builder::getInstanceId() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<5>() * ::capnp::ELEMENTS, 4294967295u);
+}
+inline void NodeDetails::Builder::setInstanceId( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<5>() * ::capnp::ELEMENTS, value, 4294967295u);
 }
 
 inline  ::uint32_t PackageDetails::Reader::getPackageId() const {
