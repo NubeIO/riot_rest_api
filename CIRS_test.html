@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CORS Test</title>
+</head>
+<body>
+<button onclick="testCORS()">Test CORS</button>
+<div id="result"></div>
+
+<script>
+    function testCORS() {
+        fetch('http://209.38.95.123:1668/api/nodes', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').textContent =
+                    'Success: ' + JSON.stringify(data);
+            })
+            .catch(error => {
+                document.getElementById('result').textContent =
+                    'Error: ' + error.message;
+            });
+    }
+</script>
+</body>
+</html>

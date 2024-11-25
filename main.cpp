@@ -11,20 +11,18 @@
 const char *SOCKET_PATH = "/tmp/engine-socket";
 int main() {
 
-  crow::App<> app;
+  crow::App<crow::CORSHandler> app;
   app.loglevel(crow::LogLevel::INFO);
   app.concurrency(1);
 
-//  // Add CORS headers directly in a catchall route
-//  CROW_ROUTE(app, "/<path>")
-//      .methods("OPTIONS"_method)
-//          ([](const crow::request& req, std::string path){
-//            crow::response res;
-//            res.add_header("Access-Control-Allow-Origin", "*");
-//            res.add_header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-//            res.add_header("Access-Control-Allow-Headers", "*");
-//            return res;
-//          });
+  // Add CORS headers directly in a catchall route
+  auto& cors = app.get_middleware<crow::CORSHandler>();
+  cors
+      .global()
+      .origin("*")  // Allow all origins for testing
+      .methods("GET"_method, "POST"_method, "PUT"_method, "DELETE"_method, "OPTIONS"_method)
+      .headers("Content-Type", "Authorization");
+
 
 
   EngineService engineService;

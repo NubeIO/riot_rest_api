@@ -4018,9 +4018,9 @@ public:
 
   inline  ::uint32_t getParentId() const;
 
-  inline  ::uint32_t getPosX() const;
+  inline  ::int32_t getPosX() const;
 
-  inline  ::uint32_t getPosY() const;
+  inline  ::int32_t getPosY() const;
 
   inline  ::uint32_t getInstanceId() const;
 
@@ -4061,11 +4061,11 @@ public:
   inline  ::uint32_t getParentId();
   inline void setParentId( ::uint32_t value);
 
-  inline  ::uint32_t getPosX();
-  inline void setPosX( ::uint32_t value);
+  inline  ::int32_t getPosX();
+  inline void setPosX( ::int32_t value);
 
-  inline  ::uint32_t getPosY();
-  inline void setPosY( ::uint32_t value);
+  inline  ::int32_t getPosY();
+  inline void setPosY( ::int32_t value);
 
   inline  ::uint32_t getInstanceId();
   inline void setInstanceId( ::uint32_t value);
@@ -5537,32 +5537,32 @@ inline void NodeDetails::Builder::setParentId( ::uint32_t value) {
       ::capnp::bounded<2>() * ::capnp::ELEMENTS, value);
 }
 
-inline  ::uint32_t NodeDetails::Reader::getPosX() const {
-  return _reader.getDataField< ::uint32_t>(
-      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 4294967295u);
+inline  ::int32_t NodeDetails::Reader::getPosX() const {
+  return _reader.getDataField< ::int32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 2147483647);
 }
 
-inline  ::uint32_t NodeDetails::Builder::getPosX() {
-  return _builder.getDataField< ::uint32_t>(
-      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 4294967295u);
+inline  ::int32_t NodeDetails::Builder::getPosX() {
+  return _builder.getDataField< ::int32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, 2147483647);
 }
-inline void NodeDetails::Builder::setPosX( ::uint32_t value) {
-  _builder.setDataField< ::uint32_t>(
-      ::capnp::bounded<3>() * ::capnp::ELEMENTS, value, 4294967295u);
-}
-
-inline  ::uint32_t NodeDetails::Reader::getPosY() const {
-  return _reader.getDataField< ::uint32_t>(
-      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 4294967295u);
+inline void NodeDetails::Builder::setPosX( ::int32_t value) {
+  _builder.setDataField< ::int32_t>(
+      ::capnp::bounded<3>() * ::capnp::ELEMENTS, value, 2147483647);
 }
 
-inline  ::uint32_t NodeDetails::Builder::getPosY() {
-  return _builder.getDataField< ::uint32_t>(
-      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 4294967295u);
+inline  ::int32_t NodeDetails::Reader::getPosY() const {
+  return _reader.getDataField< ::int32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 2147483647);
 }
-inline void NodeDetails::Builder::setPosY( ::uint32_t value) {
-  _builder.setDataField< ::uint32_t>(
-      ::capnp::bounded<4>() * ::capnp::ELEMENTS, value, 4294967295u);
+
+inline  ::int32_t NodeDetails::Builder::getPosY() {
+  return _builder.getDataField< ::int32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, 2147483647);
+}
+inline void NodeDetails::Builder::setPosY( ::int32_t value) {
+  _builder.setDataField< ::int32_t>(
+      ::capnp::bounded<4>() * ::capnp::ELEMENTS, value, 2147483647);
 }
 
 inline  ::uint32_t NodeDetails::Reader::getInstanceId() const {

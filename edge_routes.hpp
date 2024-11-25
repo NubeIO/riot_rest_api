@@ -11,7 +11,7 @@
 
 class EdgeRoutes {
  public:
-  static void registerRoutes(crow::App<>& app, EngineService& engineService, OpenAPIBuilder& apiBuilder) {
+  static void registerRoutes(crow::App<crow::CORSHandler>& app, EngineService& engineService, OpenAPIBuilder& apiBuilder) {
     setupSwaggerDocs(apiBuilder);
     setupRoutes(app, engineService);
   }
@@ -72,7 +72,7 @@ class EdgeRoutes {
     );
   }
 
-    static void setupRoutes(crow::App<> &app, EngineService &engineService) {
+    static void setupRoutes(crow::App<crow::CORSHandler> &app, EngineService &engineService) {
       CROW_ROUTE(app, "/api/edges")
           .methods("POST"_method)
               ([&engineService](const crow::request &req) {
