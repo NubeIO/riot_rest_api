@@ -142,6 +142,81 @@ class EngineService {
     return response.getJsonData().cStr();
   }
 
+  void SetDefault(uint32_t instance_id, const std::string& name, const crow::json::rvalue& value) {
+    capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
+    Engine::Client engine = client.getMain<Engine>();
+
+    auto request = engine.setDefaultRequest();
+    request.setInstanceId(instance_id);
+
+    auto io = request.getDefault();
+    io.setName(name);
+
+    auto flex_value = io.getValue();
+    setFlexValue(flex_value, value);
+
+    request.send().wait(client.getWaitScope());
+  }
+
+  void SetOverride(uint32_t instance_id, const std::string& name,
+                   const crow::json::rvalue& value, uint32_t duration, bool active, bool input) {
+    capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
+    Engine::Client engine = client.getMain<Engine>();
+
+    auto request = engine.setOverrideRequest();
+    request.setInstanceId(instance_id);
+    request.setDuration(duration);
+    request.setActive(active);
+    request.setInput(input);
+
+    auto io = request.getOverride();
+    io.setName(name);
+
+    auto flex_value = io.getValue();
+    setFlexValue(flex_value, value);
+
+    request.send().wait(client.getWaitScope());
+  }
+
+  void SetFallback(uint32_t instance_id, const std::string& name, const crow::json::rvalue& value) {
+    capnp::EzRpcClient client(kj::str("unix:", SOCKET_PATH).cStr());
+    Engine::Client engine = client.getMain<Engine>();
+
+    auto request = engine.setFallbackRequest();
+    request.setInstanceId(instance_id);
+
+    auto io = request.getFallback();
+    io.setName(name);
+
+    auto flex_value = io.getValue();
+    setFlexValue(flex_value, value);
+
+    request.send().wait(client.getWaitScope());
+  }
+
+  void setFlexValue(FlexValueCap::Builder flex_value, const crow::json::rvalue& value) {
+    if (value.t() == crow::json::type::Number) {
+      if (value.d() == std::floor(value.d())) {
+        // Integer value
+        if (value.i() >= 0) {
+          flex_value.setUintVal(value.u());
+        } else {
+          flex_value.setIntVal(value.i());
+        }
+      } else {
+        // Double value
+        flex_value.setDoubleVal(value.d());
+      }
+    } else if (value.t() == crow::json::type::String) {
+      std::string str_val = value.s();
+      flex_value.setStringVal(kj::str(str_val));
+    } else if (value.t() == crow::json::type::True ||
+        value.t() == crow::json::type::False) {
+      flex_value.setBoolVal(value.b());
+    }
+  }
+
+
 
 
 };

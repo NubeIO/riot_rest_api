@@ -48,6 +48,8 @@ CAPNP_DECLARE_SCHEMA(9328f9a27066e804);
 CAPNP_DECLARE_SCHEMA(a81018cce6cc664e);
 CAPNP_DECLARE_SCHEMA(ffec9756f0e248da);
 CAPNP_DECLARE_SCHEMA(8ca3b586946113e3);
+CAPNP_DECLARE_SCHEMA(8052694b1644e6b3);
+CAPNP_DECLARE_SCHEMA(e1b7e762330d3a98);
 CAPNP_DECLARE_SCHEMA(987e5f5d90018518);
 CAPNP_DECLARE_SCHEMA(b8fd2625918720e9);
 CAPNP_DECLARE_SCHEMA(e192a8e54d391e2d);
@@ -95,6 +97,8 @@ struct Engine {
   struct RemoveEdgeResults;
   struct SetDefaultParams;
   struct SetDefaultResults;
+  struct SetOverrideParams;
+  struct SetOverrideResults;
   struct SetFallbackParams;
   struct SetFallbackResults;
   struct GetAllValuesParams;
@@ -354,6 +358,36 @@ struct Engine::SetDefaultResults {
   };
 };
 
+struct Engine::SetOverrideParams {
+  SetOverrideParams() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(e792054a0690ce45, 2, 1)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
+struct Engine::SetOverrideResults {
+  SetOverrideResults() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(e725899841b83038, 0, 0)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
 struct Engine::SetFallbackParams {
   SetFallbackParams() = delete;
 
@@ -362,7 +396,7 @@ struct Engine::SetFallbackParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e792054a0690ce45, 1, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(b07368995ec87e01, 1, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -377,7 +411,7 @@ struct Engine::SetFallbackResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e725899841b83038, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(c08bbc306d7b4261, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -392,7 +426,7 @@ struct Engine::GetAllValuesParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(b07368995ec87e01, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(e11fd37ff2567dab, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -407,7 +441,7 @@ struct Engine::GetAllValuesResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(c08bbc306d7b4261, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(8c2950a3f55347c6, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -422,7 +456,7 @@ struct Engine::GetAvailablePackagesParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e11fd37ff2567dab, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(9328f9a27066e804, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -437,7 +471,7 @@ struct Engine::GetAvailablePackagesResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(8c2950a3f55347c6, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(a81018cce6cc664e, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -452,7 +486,7 @@ struct Engine::GetPackageJsonParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(9328f9a27066e804, 1, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(ffec9756f0e248da, 1, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -467,7 +501,7 @@ struct Engine::GetPackageJsonResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(a81018cce6cc664e, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(8ca3b586946113e3, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -482,7 +516,7 @@ struct Engine::GetFlowJsonParams {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(ffec9756f0e248da, 0, 0)
+    CAPNP_DECLARE_STRUCT_HEADER(8052694b1644e6b3, 0, 0)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -497,7 +531,7 @@ struct Engine::GetFlowJsonResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(8ca3b586946113e3, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(e1b7e762330d3a98, 0, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -771,7 +805,7 @@ struct IO {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e8af8ae547fb556a, 0, 2)
+    CAPNP_DECLARE_STRUCT_HEADER(e8af8ae547fb556a, 1, 2)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -829,6 +863,8 @@ public:
   ::capnp::Request< ::Engine::RemoveEdgeParams,  ::Engine::RemoveEdgeResults> removeEdgeRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::SetDefaultParams,  ::Engine::SetDefaultResults> setDefaultRequest(
+      ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
+  ::capnp::Request< ::Engine::SetOverrideParams,  ::Engine::SetOverrideResults> setOverrideRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
   ::capnp::Request< ::Engine::SetFallbackParams,  ::Engine::SetFallbackResults> setFallbackRequest(
       ::kj::Maybe< ::capnp::MessageSize> sizeHint = nullptr);
@@ -888,6 +924,10 @@ protected:
   typedef  ::Engine::SetDefaultResults SetDefaultResults;
   typedef ::capnp::CallContext<SetDefaultParams, SetDefaultResults> SetDefaultContext;
   virtual ::kj::Promise<void> setDefault(SetDefaultContext context);
+  typedef  ::Engine::SetOverrideParams SetOverrideParams;
+  typedef  ::Engine::SetOverrideResults SetOverrideResults;
+  typedef ::capnp::CallContext<SetOverrideParams, SetOverrideResults> SetOverrideContext;
+  virtual ::kj::Promise<void> setOverride(SetOverrideContext context);
   typedef  ::Engine::SetFallbackParams SetFallbackParams;
   typedef  ::Engine::SetFallbackResults SetFallbackResults;
   typedef ::capnp::CallContext<SetFallbackParams, SetFallbackResults> SetFallbackContext;
@@ -2182,6 +2222,179 @@ private:
 class Engine::SetDefaultResults::Pipeline {
 public:
   typedef SetDefaultResults Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class Engine::SetOverrideParams::Reader {
+public:
+  typedef SetOverrideParams Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+  inline  ::uint32_t getInstanceId() const;
+
+  inline bool hasOverride() const;
+  inline  ::IO::Reader getOverride() const;
+
+  inline  ::uint32_t getDuration() const;
+
+  inline bool getActive() const;
+
+  inline bool getInput() const;
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::SetOverrideParams::Builder {
+public:
+  typedef SetOverrideParams Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+  inline  ::uint32_t getInstanceId();
+  inline void setInstanceId( ::uint32_t value);
+
+  inline bool hasOverride();
+  inline  ::IO::Builder getOverride();
+  inline void setOverride( ::IO::Reader value);
+  inline  ::IO::Builder initOverride();
+  inline void adoptOverride(::capnp::Orphan< ::IO>&& value);
+  inline ::capnp::Orphan< ::IO> disownOverride();
+
+  inline  ::uint32_t getDuration();
+  inline void setDuration( ::uint32_t value);
+
+  inline bool getActive();
+  inline void setActive(bool value);
+
+  inline bool getInput();
+  inline void setInput(bool value);
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::SetOverrideParams::Pipeline {
+public:
+  typedef SetOverrideParams Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+  inline  ::IO::Pipeline getOverride();
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class Engine::SetOverrideResults::Reader {
+public:
+  typedef SetOverrideResults Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class Engine::SetOverrideResults::Builder {
+public:
+  typedef SetOverrideResults Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class Engine::SetOverrideResults::Pipeline {
+public:
+  typedef SetOverrideResults Pipelines;
 
   inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
   inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
@@ -4328,6 +4541,8 @@ public:
   inline bool hasValue() const;
   inline  ::FlexValueCap::Reader getValue() const;
 
+  inline bool getOverridden() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -4369,6 +4584,9 @@ public:
   inline  ::FlexValueCap::Builder initValue();
   inline void adoptValue(::capnp::Orphan< ::FlexValueCap>&& value);
   inline ::capnp::Orphan< ::FlexValueCap> disownValue();
+
+  inline bool getOverridden();
+  inline void setOverridden(bool value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -4944,6 +5162,101 @@ inline void Engine::SetDefaultParams::Builder::adoptDefault(
 inline ::capnp::Orphan< ::IO> Engine::SetDefaultParams::Builder::disownDefault() {
   return ::capnp::_::PointerHelpers< ::IO>::disown(_builder.getPointerField(
       ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
+inline  ::uint32_t Engine::SetOverrideParams::Reader::getInstanceId() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t Engine::SetOverrideParams::Builder::getInstanceId() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void Engine::SetOverrideParams::Builder::setInstanceId( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool Engine::SetOverrideParams::Reader::hasOverride() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline bool Engine::SetOverrideParams::Builder::hasOverride() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline  ::IO::Reader Engine::SetOverrideParams::Reader::getOverride() const {
+  return ::capnp::_::PointerHelpers< ::IO>::get(_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline  ::IO::Builder Engine::SetOverrideParams::Builder::getOverride() {
+  return ::capnp::_::PointerHelpers< ::IO>::get(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+#if !CAPNP_LITE
+inline  ::IO::Pipeline Engine::SetOverrideParams::Pipeline::getOverride() {
+  return  ::IO::Pipeline(_typeless.getPointerField(0));
+}
+#endif  // !CAPNP_LITE
+inline void Engine::SetOverrideParams::Builder::setOverride( ::IO::Reader value) {
+  ::capnp::_::PointerHelpers< ::IO>::set(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), value);
+}
+inline  ::IO::Builder Engine::SetOverrideParams::Builder::initOverride() {
+  return ::capnp::_::PointerHelpers< ::IO>::init(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline void Engine::SetOverrideParams::Builder::adoptOverride(
+    ::capnp::Orphan< ::IO>&& value) {
+  ::capnp::_::PointerHelpers< ::IO>::adopt(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::IO> Engine::SetOverrideParams::Builder::disownOverride() {
+  return ::capnp::_::PointerHelpers< ::IO>::disown(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
+inline  ::uint32_t Engine::SetOverrideParams::Reader::getDuration() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t Engine::SetOverrideParams::Builder::getDuration() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS);
+}
+inline void Engine::SetOverrideParams::Builder::setDuration( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool Engine::SetOverrideParams::Reader::getActive() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<64>() * ::capnp::ELEMENTS);
+}
+
+inline bool Engine::SetOverrideParams::Builder::getActive() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<64>() * ::capnp::ELEMENTS);
+}
+inline void Engine::SetOverrideParams::Builder::setActive(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<64>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool Engine::SetOverrideParams::Reader::getInput() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<65>() * ::capnp::ELEMENTS);
+}
+
+inline bool Engine::SetOverrideParams::Builder::getInput() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<65>() * ::capnp::ELEMENTS);
+}
+inline void Engine::SetOverrideParams::Builder::setInput(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<65>() * ::capnp::ELEMENTS, value);
 }
 
 inline  ::uint32_t Engine::SetFallbackParams::Reader::getInstanceId() const {
@@ -5899,6 +6212,20 @@ inline void IO::Builder::adoptValue(
 inline ::capnp::Orphan< ::FlexValueCap> IO::Builder::disownValue() {
   return ::capnp::_::PointerHelpers< ::FlexValueCap>::disown(_builder.getPointerField(
       ::capnp::bounded<1>() * ::capnp::POINTERS));
+}
+
+inline bool IO::Reader::getOverridden() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline bool IO::Builder::getOverridden() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void IO::Builder::setOverridden(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
 }
 
 inline  ::uint32_t UpdatedOutputs::Reader::getInstanceId() const {

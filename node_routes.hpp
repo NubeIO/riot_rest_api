@@ -10,14 +10,28 @@
 #include "engine_service.hpp"
 #include "open_api_builder.hpp"
 
+
 class NodeRoutes {
  public:
   static void registerRoutes(crow::App<crow::CORSHandler>& app, EngineService& engineService, OpenAPIBuilder& apiBuilder) {
     setupSwaggerDocs(apiBuilder);
     setupRoutes(app, engineService);
+
   }
 
  private:
+  static crow::json::wvalue createFlexValueSchema() {
+    crow::json::wvalue schema;
+    auto& types = schema["oneOf"];
+    types = crow::json::wvalue::list();
+    types[0]["type"] = "integer";
+    types[1]["type"] = "number";
+    types[2]["type"] = "boolean";
+    types[3]["type"] = "string";
+    return schema;
+  }
+
+
   static void setupSwaggerDocs(OpenAPIBuilder& apiBuilder) {
     auto addNodeDetailsSchema = OpenAPIBuilder::createObjectSchema({
                                                                     {"nodeId", "integer"},
@@ -33,6 +47,24 @@ class NodeRoutes {
                                                                        {"posY", "integer"},
                                                                    });
 
+
+
+    auto ioSchema = OpenAPIBuilder::createObjectSchema({
+                                                           {"name", "string"},
+                                                           {"overridden", "boolean"}
+                                                       });
+    ioSchema["properties"]["value"] = createFlexValueSchema();
+
+
+
+    auto instanceIdParam = OpenAPIBuilder::createParameter(
+        "instanceId",
+        "path",
+        true,
+        "integer",
+        "Instance ID of the node"
+    );
+
     std::vector<crow::json::wvalue> nodeParameters = {
         OpenAPIBuilder::createParameter(
             "instanceId",
@@ -42,6 +74,38 @@ class NodeRoutes {
             "Instance ID of the node to remove"
         )
     };
+
+    apiBuilder.addEndpoint(
+        "/api/nodes/{instanceId}/default",
+        "PUT",
+        "Set default value for node",
+        ioSchema,
+        {{"200", {{"description", "Default value set successfully"}}}},
+        {instanceIdParam}  // Add parameter here
+    );
+
+
+    auto overrideSchema = ioSchema;  // Copy the base IO schema
+    overrideSchema["properties"]["duration"] = {{"type", "integer"}};
+    overrideSchema["properties"]["active"] = {{"type", "boolean"}};
+    overrideSchema["properties"]["input"] = {{"type", "boolean"}};
+    apiBuilder.addEndpoint(
+        "/api/nodes/{instanceId}/override",
+        "PUT",
+        "Set override value for node",
+        overrideSchema,
+        {{"200", {{"description", "Override value set successfully"}}}},
+        {instanceIdParam}  // Add parameter here
+    );
+
+    apiBuilder.addEndpoint(
+        "/api/nodes/{instanceId}/fallback",
+        "PUT",
+        "Set fallback value for node",
+        ioSchema,
+        {{"200", {{"description", "Fallback value set successfully"}}}},
+        {instanceIdParam}  // Add parameter here
+    );
 
     apiBuilder.addEndpoint(
         "/api/nodes",
@@ -110,12 +174,21 @@ class NodeRoutes {
                 {"application/json", {
                     {"schema", {
                         {"type", "array"},
-                        {"items", OpenAPIBuilder::createObjectSchema({
-                                                                         {"instanceId", "integer"},
-                                                                         {"nodeName", "string"},
-                                                                         {"inputs", "array"},
-                                                                         {"outputs", "array"}
-                                                                     })}
+                        {"items", {
+                            {"type", "object"},
+                            {"properties", {
+                                {"instanceId", {{"type", "integer"}}},
+                                {"nodeName", {{"type", "string"}}},
+                                {"inputs", {
+                                    {"type", "array"},
+                                    {"items", ioSchema}
+                                }},
+                                {"outputs", {
+                                    {"type", "array"},
+                                    {"items", ioSchema}
+                                }}
+                            }}
+                        }}
                     }}
                 }}
             }}
@@ -124,44 +197,40 @@ class NodeRoutes {
   }
 
   static crow::json::wvalue convertFlexValueToJson(const FlexValueCap::Reader& flex) {
-    crow::json::wvalue value;
-
     if (flex.isIntVal()) {
-      value = flex.getIntVal();
+      return crow::json::wvalue(static_cast<std::int64_t>(flex.getIntVal()));
     } else if (flex.isUintVal()) {
-      value = flex.getUintVal();
+      return crow::json::wvalue(static_cast<std::uint64_t>(flex.getUintVal()));
     } else if (flex.isBoolVal()) {
-      value = flex.getBoolVal();
+      return crow::json::wvalue(flex.getBoolVal());
     } else if (flex.isDoubleVal()) {
-      // Convert double to string to preserve precision
-      std::ostringstream ss;
-      ss << std::fixed << std::setprecision(3); // or whatever precision you need
-      ss << flex.getDoubleVal();
-      value = ss.str();
+      return crow::json::wvalue(flex.getDoubleVal());
     } else if (flex.isStringVal()) {
-      value = flex.getStringVal().cStr();
+      return crow::json::wvalue(std::string(flex.getStringVal().cStr()));
     }
-
-    return value;
+    return crow::json::wvalue(nullptr);
   }
 
   static crow::json::wvalue convertIOToJson(const IO::Reader& io) {
     crow::json::wvalue json;
-    json["name"] = io.getName().cStr();
+    json["name"] = std::string(io.getName().cStr());
     json["value"] = convertFlexValueToJson(io.getValue());
+    json["overridden"] = io.getOverridden();
     return json;
   }
 
   static crow::json::wvalue convertNodeToJson(const Node::Reader& node) {
     crow::json::wvalue json;
-    json["instanceId"] = node.getInstanceId();
-    json["nodeName"] = node.getNodeName().cStr();
+    json["instanceId"] = static_cast<uint32_t>(node.getInstanceId());
+    json["nodeName"] = std::string(node.getNodeName().cStr());
 
+    json["inputs"] = crow::json::wvalue::list();
     auto inputs = node.getInputs();
     for (size_t i = 0; i < inputs.size(); i++) {
       json["inputs"][i] = convertIOToJson(inputs[i]);
     }
 
+    json["outputs"] = crow::json::wvalue::list();
     auto outputs = node.getOutputs();
     for (size_t i = 0; i < outputs.size(); i++) {
       json["outputs"][i] = convertIOToJson(outputs[i]);
@@ -258,6 +327,59 @@ class NodeRoutes {
                 return crow::response(500, e.what());
               }
             });
+
+    CROW_ROUTE(app, "/api/nodes/<uint>/default")
+        .methods("PUT"_method)
+            ([&engineService](const crow::request& req, uint32_t instance_id) {
+              auto x = crow::json::load(req.body);
+              if (!x || !x.has("name") || !x.has("value"))
+                return crow::response(400, "Invalid JSON. Required fields: 'name' and 'value'");
+
+              try {
+                engineService.SetDefault(instance_id, x["name"].s(), x["value"]);
+                return crow::response(200);
+              } catch (const std::exception& e) {
+                return crow::response(500, e.what());
+              }
+            });
+
+    CROW_ROUTE(app, "/api/nodes/<uint>/override")
+        .methods("PUT"_method)
+            ([&engineService](const crow::request& req, uint32_t instance_id) {
+              auto x = crow::json::load(req.body);
+              if (!x || !x.has("name") || !x.has("value") || !x.has("duration"))
+                return crow::response(400, "Invalid JSON. Required fields: 'name', 'value', and 'duration'");
+
+              try {
+                engineService.SetOverride(
+                    instance_id,
+                    x["name"].s(),
+                    x["value"],
+                    x["duration"].u(),
+                    x["active"].b(),
+                    x["input"].b()
+                );
+                return crow::response(200);
+              } catch (const std::exception& e) {
+                return crow::response(500, e.what());
+              }
+            });
+
+    CROW_ROUTE(app, "/api/nodes/<uint>/fallback")
+        .methods("PUT"_method)
+            ([&engineService](const crow::request& req, uint32_t instance_id) {
+              auto x = crow::json::load(req.body);
+              if (!x || !x.has("name") || !x.has("value"))
+                return crow::response(400, "Invalid JSON. Required fields: 'name' and 'value'");
+
+              try {
+                engineService.SetFallback(instance_id, x["name"].s(), x["value"]);
+                return crow::response(200);
+              } catch (const std::exception& e) {
+                return crow::response(500, e.what());
+              }
+            });
+
 
   }
 };

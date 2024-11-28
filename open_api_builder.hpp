@@ -9,6 +9,7 @@ class OpenAPIBuilder {
  private:
   crow::json::wvalue schema;
 
+
  public:
   OpenAPIBuilder() {
     schema["openapi"] = "3.0.0";
