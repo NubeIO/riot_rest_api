@@ -62,6 +62,7 @@ CAPNP_DECLARE_SCHEMA(ec3662221e9e99e6);
 CAPNP_DECLARE_SCHEMA(f9aadd7aeafc23ed);
 CAPNP_DECLARE_SCHEMA(ea34975d2e10a5d9);
 CAPNP_DECLARE_SCHEMA(a23fcc4a39b7ead4);
+CAPNP_DECLARE_SCHEMA(c39cf6e17e59768e);
 CAPNP_DECLARE_SCHEMA(dbe1d12fe2e4e9db);
 CAPNP_DECLARE_SCHEMA(f3c0b9463f592afe);
 CAPNP_DECLARE_SCHEMA(a191290363edf5df);
@@ -678,7 +679,7 @@ struct PackageManager::EvaluateNodeResults {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(ec3662221e9e99e6, 0, 1)
+    CAPNP_DECLARE_STRUCT_HEADER(ec3662221e9e99e6, 1, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -723,7 +724,22 @@ struct Node {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(a23fcc4a39b7ead4, 1, 3)
+    CAPNP_DECLARE_STRUCT_HEADER(a23fcc4a39b7ead4, 1, 4)
+    #if !CAPNP_LITE
+    static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
+    #endif  // !CAPNP_LITE
+  };
+};
+
+struct NodeStatus {
+  NodeStatus() = delete;
+
+  class Reader;
+  class Builder;
+  class Pipeline;
+
+  struct _capnpPrivate {
+    CAPNP_DECLARE_STRUCT_HEADER(c39cf6e17e59768e, 1, 1)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -768,7 +784,7 @@ struct PackageDetails {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(a191290363edf5df, 1, 2)
+    CAPNP_DECLARE_STRUCT_HEADER(a191290363edf5df, 1, 3)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -805,7 +821,7 @@ struct IO {
   class Pipeline;
 
   struct _capnpPrivate {
-    CAPNP_DECLARE_STRUCT_HEADER(e8af8ae547fb556a, 1, 2)
+    CAPNP_DECLARE_STRUCT_HEADER(e8af8ae547fb556a, 1, 4)
     #if !CAPNP_LITE
     static constexpr ::capnp::_::RawBrandedSchema const* brand() { return &schema->defaultBrand; }
     #endif  // !CAPNP_LITE
@@ -3798,6 +3814,8 @@ public:
   inline bool hasOutputs() const;
   inline  ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>::Reader getOutputs() const;
 
+  inline  ::uint32_t getDuration() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -3832,6 +3850,9 @@ public:
   inline  ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>::Builder initOutputs(unsigned int size);
   inline void adoptOutputs(::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>>&& value);
   inline ::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>> disownOutputs();
+
+  inline  ::uint32_t getDuration();
+  inline void setDuration( ::uint32_t value);
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -4029,6 +4050,11 @@ public:
   inline bool hasOutputs() const;
   inline  ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>::Reader getOutputs() const;
 
+  inline bool getHasChildren() const;
+
+  inline bool hasNodeStatus() const;
+  inline  ::NodeStatus::Reader getNodeStatus() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -4081,6 +4107,16 @@ public:
   inline void adoptOutputs(::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>>&& value);
   inline ::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>> disownOutputs();
 
+  inline bool getHasChildren();
+  inline void setHasChildren(bool value);
+
+  inline bool hasNodeStatus();
+  inline  ::NodeStatus::Builder getNodeStatus();
+  inline void setNodeStatus( ::NodeStatus::Reader value);
+  inline  ::NodeStatus::Builder initNodeStatus();
+  inline void adoptNodeStatus(::capnp::Orphan< ::NodeStatus>&& value);
+  inline ::capnp::Orphan< ::NodeStatus> disownNodeStatus();
+
 private:
   ::capnp::_::StructBuilder _builder;
   template <typename, ::capnp::Kind>
@@ -4094,6 +4130,98 @@ private:
 class Node::Pipeline {
 public:
   typedef Node Pipelines;
+
+  inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
+  inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
+      : _typeless(kj::mv(typeless)) {}
+
+  inline  ::NodeStatus::Pipeline getNodeStatus();
+private:
+  ::capnp::AnyPointer::Pipeline _typeless;
+  friend class ::capnp::PipelineHook;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+};
+#endif  // !CAPNP_LITE
+
+class NodeStatus::Reader {
+public:
+  typedef NodeStatus Reads;
+
+  Reader() = default;
+  inline explicit Reader(::capnp::_::StructReader base): _reader(base) {}
+
+  inline ::capnp::MessageSize totalSize() const {
+    return _reader.totalSize().asPublic();
+  }
+
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const {
+    return ::capnp::_::structString(_reader, *_capnpPrivate::brand());
+  }
+#endif  // !CAPNP_LITE
+
+  inline bool hasStatus() const;
+  inline  ::capnp::Text::Reader getStatus() const;
+
+  inline  ::uint32_t getCount() const;
+
+  inline  ::uint32_t getDuration() const;
+
+private:
+  ::capnp::_::StructReader _reader;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::List;
+  friend class ::capnp::MessageBuilder;
+  friend class ::capnp::Orphanage;
+};
+
+class NodeStatus::Builder {
+public:
+  typedef NodeStatus Builds;
+
+  Builder() = delete;  // Deleted to discourage incorrect usage.
+                       // You can explicitly initialize to nullptr instead.
+  inline Builder(decltype(nullptr)) {}
+  inline explicit Builder(::capnp::_::StructBuilder base): _builder(base) {}
+  inline operator Reader() const { return Reader(_builder.asReader()); }
+  inline Reader asReader() const { return *this; }
+
+  inline ::capnp::MessageSize totalSize() const { return asReader().totalSize(); }
+#if !CAPNP_LITE
+  inline ::kj::StringTree toString() const { return asReader().toString(); }
+#endif  // !CAPNP_LITE
+
+  inline bool hasStatus();
+  inline  ::capnp::Text::Builder getStatus();
+  inline void setStatus( ::capnp::Text::Reader value);
+  inline  ::capnp::Text::Builder initStatus(unsigned int size);
+  inline void adoptStatus(::capnp::Orphan< ::capnp::Text>&& value);
+  inline ::capnp::Orphan< ::capnp::Text> disownStatus();
+
+  inline  ::uint32_t getCount();
+  inline void setCount( ::uint32_t value);
+
+  inline  ::uint32_t getDuration();
+  inline void setDuration( ::uint32_t value);
+
+private:
+  ::capnp::_::StructBuilder _builder;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::ToDynamic_;
+  friend class ::capnp::Orphanage;
+  template <typename, ::capnp::Kind>
+  friend struct ::capnp::_::PointerHelpers;
+};
+
+#if !CAPNP_LITE
+class NodeStatus::Pipeline {
+public:
+  typedef NodeStatus Pipelines;
 
   inline Pipeline(decltype(nullptr)): _typeless(nullptr) {}
   inline explicit Pipeline(::capnp::AnyPointer::Pipeline&& typeless)
@@ -4334,6 +4462,9 @@ public:
   inline bool hasPackageVersion() const;
   inline  ::capnp::Text::Reader getPackageVersion() const;
 
+  inline bool hasDetailsFilePath() const;
+  inline  ::capnp::Text::Reader getDetailsFilePath() const;
+
 private:
   ::capnp::_::StructReader _reader;
   template <typename, ::capnp::Kind>
@@ -4378,6 +4509,13 @@ public:
   inline  ::capnp::Text::Builder initPackageVersion(unsigned int size);
   inline void adoptPackageVersion(::capnp::Orphan< ::capnp::Text>&& value);
   inline ::capnp::Orphan< ::capnp::Text> disownPackageVersion();
+
+  inline bool hasDetailsFilePath();
+  inline  ::capnp::Text::Builder getDetailsFilePath();
+  inline void setDetailsFilePath( ::capnp::Text::Reader value);
+  inline  ::capnp::Text::Builder initDetailsFilePath(unsigned int size);
+  inline void adoptDetailsFilePath(::capnp::Orphan< ::capnp::Text>&& value);
+  inline ::capnp::Orphan< ::capnp::Text> disownDetailsFilePath();
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -4541,7 +4679,13 @@ public:
   inline bool hasValue() const;
   inline  ::FlexValueCap::Reader getValue() const;
 
-  inline bool getOverridden() const;
+  inline bool getOverride() const;
+
+  inline bool hasOverrideValue() const;
+  inline  ::FlexValueCap::Reader getOverrideValue() const;
+
+  inline bool hasDefaultValue() const;
+  inline  ::FlexValueCap::Reader getDefaultValue() const;
 
 private:
   ::capnp::_::StructReader _reader;
@@ -4585,8 +4729,22 @@ public:
   inline void adoptValue(::capnp::Orphan< ::FlexValueCap>&& value);
   inline ::capnp::Orphan< ::FlexValueCap> disownValue();
 
-  inline bool getOverridden();
-  inline void setOverridden(bool value);
+  inline bool getOverride();
+  inline void setOverride(bool value);
+
+  inline bool hasOverrideValue();
+  inline  ::FlexValueCap::Builder getOverrideValue();
+  inline void setOverrideValue( ::FlexValueCap::Reader value);
+  inline  ::FlexValueCap::Builder initOverrideValue();
+  inline void adoptOverrideValue(::capnp::Orphan< ::FlexValueCap>&& value);
+  inline ::capnp::Orphan< ::FlexValueCap> disownOverrideValue();
+
+  inline bool hasDefaultValue();
+  inline  ::FlexValueCap::Builder getDefaultValue();
+  inline void setDefaultValue( ::FlexValueCap::Reader value);
+  inline  ::FlexValueCap::Builder initDefaultValue();
+  inline void adoptDefaultValue(::capnp::Orphan< ::FlexValueCap>&& value);
+  inline ::capnp::Orphan< ::FlexValueCap> disownDefaultValue();
 
 private:
   ::capnp::_::StructBuilder _builder;
@@ -4607,6 +4765,8 @@ public:
       : _typeless(kj::mv(typeless)) {}
 
   inline  ::FlexValueCap::Pipeline getValue();
+  inline  ::FlexValueCap::Pipeline getOverrideValue();
+  inline  ::FlexValueCap::Pipeline getDefaultValue();
 private:
   ::capnp::AnyPointer::Pipeline _typeless;
   friend class ::capnp::PipelineHook;
@@ -5596,6 +5756,20 @@ inline ::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>> PackageMan
       ::capnp::bounded<0>() * ::capnp::POINTERS));
 }
 
+inline  ::uint32_t PackageManager::EvaluateNodeResults::Reader::getDuration() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t PackageManager::EvaluateNodeResults::Builder::getDuration() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void PackageManager::EvaluateNodeResults::Builder::setDuration( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
 inline  ::uint32_t Node::Reader::getInstanceId() const {
   return _reader.getDataField< ::uint32_t>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
@@ -5710,6 +5884,121 @@ inline void Node::Builder::adoptOutputs(
 inline ::capnp::Orphan< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>> Node::Builder::disownOutputs() {
   return ::capnp::_::PointerHelpers< ::capnp::List< ::IO,  ::capnp::Kind::STRUCT>>::disown(_builder.getPointerField(
       ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+
+inline bool Node::Reader::getHasChildren() const {
+  return _reader.getDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS);
+}
+
+inline bool Node::Builder::getHasChildren() {
+  return _builder.getDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS);
+}
+inline void Node::Builder::setHasChildren(bool value) {
+  _builder.setDataField<bool>(
+      ::capnp::bounded<32>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool Node::Reader::hasNodeStatus() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS).isNull();
+}
+inline bool Node::Builder::hasNodeStatus() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS).isNull();
+}
+inline  ::NodeStatus::Reader Node::Reader::getNodeStatus() const {
+  return ::capnp::_::PointerHelpers< ::NodeStatus>::get(_reader.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+inline  ::NodeStatus::Builder Node::Builder::getNodeStatus() {
+  return ::capnp::_::PointerHelpers< ::NodeStatus>::get(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+#if !CAPNP_LITE
+inline  ::NodeStatus::Pipeline Node::Pipeline::getNodeStatus() {
+  return  ::NodeStatus::Pipeline(_typeless.getPointerField(3));
+}
+#endif  // !CAPNP_LITE
+inline void Node::Builder::setNodeStatus( ::NodeStatus::Reader value) {
+  ::capnp::_::PointerHelpers< ::NodeStatus>::set(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS), value);
+}
+inline  ::NodeStatus::Builder Node::Builder::initNodeStatus() {
+  return ::capnp::_::PointerHelpers< ::NodeStatus>::init(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+inline void Node::Builder::adoptNodeStatus(
+    ::capnp::Orphan< ::NodeStatus>&& value) {
+  ::capnp::_::PointerHelpers< ::NodeStatus>::adopt(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::NodeStatus> Node::Builder::disownNodeStatus() {
+  return ::capnp::_::PointerHelpers< ::NodeStatus>::disown(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+
+inline bool NodeStatus::Reader::hasStatus() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline bool NodeStatus::Builder::hasStatus() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS).isNull();
+}
+inline  ::capnp::Text::Reader NodeStatus::Reader::getStatus() const {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_reader.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline  ::capnp::Text::Builder NodeStatus::Builder::getStatus() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+inline void NodeStatus::Builder::setStatus( ::capnp::Text::Reader value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::set(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), value);
+}
+inline  ::capnp::Text::Builder NodeStatus::Builder::initStatus(unsigned int size) {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::init(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), size);
+}
+inline void NodeStatus::Builder::adoptStatus(
+    ::capnp::Orphan< ::capnp::Text>&& value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::adopt(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::capnp::Text> NodeStatus::Builder::disownStatus() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::disown(_builder.getPointerField(
+      ::capnp::bounded<0>() * ::capnp::POINTERS));
+}
+
+inline  ::uint32_t NodeStatus::Reader::getCount() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t NodeStatus::Builder::getCount() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS);
+}
+inline void NodeStatus::Builder::setCount( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
+inline  ::uint32_t NodeStatus::Reader::getDuration() const {
+  return _reader.getDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS);
+}
+
+inline  ::uint32_t NodeStatus::Builder::getDuration() {
+  return _builder.getDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS);
+}
+inline void NodeStatus::Builder::setDuration( ::uint32_t value) {
+  _builder.setDataField< ::uint32_t>(
+      ::capnp::bounded<1>() * ::capnp::ELEMENTS, value);
 }
 
 inline  ::uint32_t EdgeMessage::Reader::getFromInstanceId() const {
@@ -5974,6 +6263,40 @@ inline ::capnp::Orphan< ::capnp::Text> PackageDetails::Builder::disownPackageVer
       ::capnp::bounded<1>() * ::capnp::POINTERS));
 }
 
+inline bool PackageDetails::Reader::hasDetailsFilePath() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS).isNull();
+}
+inline bool PackageDetails::Builder::hasDetailsFilePath() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS).isNull();
+}
+inline  ::capnp::Text::Reader PackageDetails::Reader::getDetailsFilePath() const {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_reader.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+inline  ::capnp::Text::Builder PackageDetails::Builder::getDetailsFilePath() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::get(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+inline void PackageDetails::Builder::setDetailsFilePath( ::capnp::Text::Reader value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::set(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS), value);
+}
+inline  ::capnp::Text::Builder PackageDetails::Builder::initDetailsFilePath(unsigned int size) {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::init(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS), size);
+}
+inline void PackageDetails::Builder::adoptDetailsFilePath(
+    ::capnp::Orphan< ::capnp::Text>&& value) {
+  ::capnp::_::PointerHelpers< ::capnp::Text>::adopt(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::capnp::Text> PackageDetails::Builder::disownDetailsFilePath() {
+  return ::capnp::_::PointerHelpers< ::capnp::Text>::disown(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+
 inline  ::FlexValueCap::Which FlexValueCap::Reader::which() const {
   return _reader.getDataField<Which>(
       ::capnp::bounded<2>() * ::capnp::ELEMENTS);
@@ -6214,18 +6537,96 @@ inline ::capnp::Orphan< ::FlexValueCap> IO::Builder::disownValue() {
       ::capnp::bounded<1>() * ::capnp::POINTERS));
 }
 
-inline bool IO::Reader::getOverridden() const {
+inline bool IO::Reader::getOverride() const {
   return _reader.getDataField<bool>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
 }
 
-inline bool IO::Builder::getOverridden() {
+inline bool IO::Builder::getOverride() {
   return _builder.getDataField<bool>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS);
 }
-inline void IO::Builder::setOverridden(bool value) {
+inline void IO::Builder::setOverride(bool value) {
   _builder.setDataField<bool>(
       ::capnp::bounded<0>() * ::capnp::ELEMENTS, value);
+}
+
+inline bool IO::Reader::hasOverrideValue() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS).isNull();
+}
+inline bool IO::Builder::hasOverrideValue() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS).isNull();
+}
+inline  ::FlexValueCap::Reader IO::Reader::getOverrideValue() const {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::get(_reader.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+inline  ::FlexValueCap::Builder IO::Builder::getOverrideValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::get(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+#if !CAPNP_LITE
+inline  ::FlexValueCap::Pipeline IO::Pipeline::getOverrideValue() {
+  return  ::FlexValueCap::Pipeline(_typeless.getPointerField(2));
+}
+#endif  // !CAPNP_LITE
+inline void IO::Builder::setOverrideValue( ::FlexValueCap::Reader value) {
+  ::capnp::_::PointerHelpers< ::FlexValueCap>::set(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS), value);
+}
+inline  ::FlexValueCap::Builder IO::Builder::initOverrideValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::init(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+inline void IO::Builder::adoptOverrideValue(
+    ::capnp::Orphan< ::FlexValueCap>&& value) {
+  ::capnp::_::PointerHelpers< ::FlexValueCap>::adopt(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::FlexValueCap> IO::Builder::disownOverrideValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::disown(_builder.getPointerField(
+      ::capnp::bounded<2>() * ::capnp::POINTERS));
+}
+
+inline bool IO::Reader::hasDefaultValue() const {
+  return !_reader.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS).isNull();
+}
+inline bool IO::Builder::hasDefaultValue() {
+  return !_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS).isNull();
+}
+inline  ::FlexValueCap::Reader IO::Reader::getDefaultValue() const {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::get(_reader.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+inline  ::FlexValueCap::Builder IO::Builder::getDefaultValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::get(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+#if !CAPNP_LITE
+inline  ::FlexValueCap::Pipeline IO::Pipeline::getDefaultValue() {
+  return  ::FlexValueCap::Pipeline(_typeless.getPointerField(3));
+}
+#endif  // !CAPNP_LITE
+inline void IO::Builder::setDefaultValue( ::FlexValueCap::Reader value) {
+  ::capnp::_::PointerHelpers< ::FlexValueCap>::set(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS), value);
+}
+inline  ::FlexValueCap::Builder IO::Builder::initDefaultValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::init(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
+}
+inline void IO::Builder::adoptDefaultValue(
+    ::capnp::Orphan< ::FlexValueCap>&& value) {
+  ::capnp::_::PointerHelpers< ::FlexValueCap>::adopt(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS), kj::mv(value));
+}
+inline ::capnp::Orphan< ::FlexValueCap> IO::Builder::disownDefaultValue() {
+  return ::capnp::_::PointerHelpers< ::FlexValueCap>::disown(_builder.getPointerField(
+      ::capnp::bounded<3>() * ::capnp::POINTERS));
 }
 
 inline  ::uint32_t UpdatedOutputs::Reader::getInstanceId() const {

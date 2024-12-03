@@ -47,14 +47,30 @@ class NodeRoutes {
                                                                        {"posY", "integer"},
                                                                    });
 
-
+    auto nodeStatusSchema = OpenAPIBuilder::createObjectSchema({
+                                                           {"status", "string"},
+                                                           {"count", "integer"},
+                                                           {"duration", "integer"}
+                                                       });
 
     auto ioSchema = OpenAPIBuilder::createObjectSchema({
                                                            {"name", "string"},
-                                                           {"overridden", "boolean"}
-                                                       });
+                                                           {"override", "boolean"}
+                                                          });
     ioSchema["properties"]["value"] = createFlexValueSchema();
+    ioSchema["properties"]["override_value"] = createFlexValueSchema();
 
+    auto inputSchema = ioSchema;
+    inputSchema["properties"]["default_value"] = createFlexValueSchema();
+
+    auto outputSchema = ioSchema;
+    inputSchema["properties"]["fallback_value"] = createFlexValueSchema();
+
+
+    auto defaultSchema = OpenAPIBuilder::createObjectSchema({
+                                                           {"name", "string"},
+                                                       });
+    defaultSchema["properties"]["value"] = createFlexValueSchema();
 
 
     auto instanceIdParam = OpenAPIBuilder::createParameter(
@@ -79,13 +95,13 @@ class NodeRoutes {
         "/api/nodes/{instanceId}/default",
         "PUT",
         "Set default value for node",
-        ioSchema,
+        defaultSchema,
         {{"200", {{"description", "Default value set successfully"}}}},
         {instanceIdParam}  // Add parameter here
     );
 
 
-    auto overrideSchema = ioSchema;  // Copy the base IO schema
+    auto overrideSchema = defaultSchema;  // Copy the base IO schema
     overrideSchema["properties"]["duration"] = {{"type", "integer"}};
     overrideSchema["properties"]["active"] = {{"type", "boolean"}};
     overrideSchema["properties"]["input"] = {{"type", "boolean"}};
@@ -179,13 +195,15 @@ class NodeRoutes {
                             {"properties", {
                                 {"instanceId", {{"type", "integer"}}},
                                 {"nodeName", {{"type", "string"}}},
+                                {"hasChildren", {{"type", "boolean"}}},
+                                {"nodeStatus", nodeStatusSchema},
                                 {"inputs", {
                                     {"type", "array"},
-                                    {"items", ioSchema}
+                                    {"items", inputSchema}
                                 }},
                                 {"outputs", {
                                     {"type", "array"},
-                                    {"items", ioSchema}
+                                    {"items", outputSchema}
                                 }}
                             }}
                         }}
@@ -215,7 +233,18 @@ class NodeRoutes {
     crow::json::wvalue json;
     json["name"] = std::string(io.getName().cStr());
     json["value"] = convertFlexValueToJson(io.getValue());
-    json["overridden"] = io.getOverridden();
+    json["override"] = io.getOverride();
+    json["override_value"] = convertFlexValueToJson(io.getOverrideValue());
+    json["default_value"] = convertFlexValueToJson(io.getDefaultValue());
+    return json;
+  }
+  static crow::json::wvalue convertOutputIOToJson(const IO::Reader& io) {
+    crow::json::wvalue json;
+    json["name"] = std::string(io.getName().cStr());
+    json["value"] = convertFlexValueToJson(io.getValue());
+    json["override"] = io.getOverride();
+    json["override_value"] = convertFlexValueToJson(io.getOverrideValue());
+    json["fallback_value"] = convertFlexValueToJson(io.getDefaultValue());  // renamed for outputs
     return json;
   }
 
@@ -223,6 +252,13 @@ class NodeRoutes {
     crow::json::wvalue json;
     json["instanceId"] = static_cast<uint32_t>(node.getInstanceId());
     json["nodeName"] = std::string(node.getNodeName().cStr());
+    json["hasChildren"] = node.getHasChildren();
+
+    // Add NodeStatus
+    auto nodeStatus = node.getNodeStatus();
+    json["nodeStatus"]["status"] = std::string(nodeStatus.getStatus().cStr());
+    json["nodeStatus"]["count"] = static_cast<uint32_t>(nodeStatus.getCount());
+    json["nodeStatus"]["duration"] = static_cast<uint32_t>(nodeStatus.getDuration());
 
     json["inputs"] = crow::json::wvalue::list();
     auto inputs = node.getInputs();
@@ -233,7 +269,7 @@ class NodeRoutes {
     json["outputs"] = crow::json::wvalue::list();
     auto outputs = node.getOutputs();
     for (size_t i = 0; i < outputs.size(); i++) {
-      json["outputs"][i] = convertIOToJson(outputs[i]);
+      json["outputs"][i] = convertOutputIOToJson(outputs[i]);
     }
 
     return json;
